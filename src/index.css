@@ -1,0 +1,226 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  list-style: none;
+}
+@layer components {
+  .container {
+    @apply w-full max-w-[1300px] px-[15px] mx-auto relative;
+  }
+  .flexCenter {
+    @apply flex justify-center items-center;
+  }
+  .flexBetween {
+    @apply flex justify-between items-center;
+  }
+}
+.dropbtn {
+  padding: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown {
+  width: max-content;
+  position: relative;
+}
+
+.dropdown-content {
+  border: 1px solid #000;
+  display: block;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 130px;
+  width: max-content;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 9;
+  transform: scaleY(0);
+  transition: all 0.3s ease;
+  transform-origin: top center;
+}
+
+.dropdown-content .navItem {
+  padding: 8px 18px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropDown:hover .dropdown-content {
+  transform: scaleY(1);
+}
+.dropdown-content .navItem:hover {
+  transform: translateX(12px);
+  color: red;
+  cursor: pointer;
+}
+.dropdown-content li:hover {
+  background-color: #f7f7f7;
+}
+.ant-modal-wrap .ant-modal .ant-modal-content {
+  background-color: #eff1f3;
+}
+.ant-popover.ant-popover-placement-bottomRight {
+  margin-left: 40px;
+}
+.ant-popover.ant-popover-placement-bottomRight .ant-popover-arrow {
+  display: none;
+}
+.banner {
+  background-image: url(/images/bg-banner.jpg);
+  background-size: cover;
+}
+
+.button {
+  background-color: #000;
+  color: #fff;
+  border: 0.3em solid #fff;
+  border-radius: 0.5em;
+  width: 100%;
+  /* max-width: 250px; */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: 0.5s;
+  margin: 1em 0;
+  padding: 20px 0;
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.1em;
+}
+
+.button span {
+  position: absolute;
+  width: 25%;
+  height: 100%;
+  background-color: #c0c0c0;
+  transform: translateY(150%);
+  border-radius: 50%;
+  left: calc((var(--n) - 1) * 25%);
+  transition: 0.5s;
+  transition-delay: calc((var(--n) - 1) * 0.1s);
+  z-index: -1;
+}
+
+.button:hover {
+  color: #000;
+  border-color: #c0c0c0;
+}
+
+.button:hover span {
+  transform: translateY(0) scale(2);
+}
+
+.button span:nth-child(1) {
+  --n: 1;
+}
+
+.button span:nth-child(2) {
+  --n: 2;
+}
+
+.button span:nth-child(3) {
+  --n: 3;
+}
+
+.button span:nth-child(4) {
+  --n: 4;
+}
+
+.heading {
+  color: #161619;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 36px;
+}
+.hover-underline-animation::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+.anticon.anticon-heart > svg {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  margin-left: 1px;
+}
+.anticon.anticon-heart {
+  width: 30px;
+  height: 30px;
+  /* background: pink; */
+  border-radius: 50%;
+}
+.item:hover .content {
+  transform: translateY(-33%);
+}
+.page-title {
+  color: #161619;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32.4px;
+}
+.ant-collapse .ant-collapse-item .ant-collapse-content > .ant-collapse-content-box {
+  padding: 0;
+}
+.ant-collapse .ant-collapse-item .ant-collapse-header .ant-collapse-header-text {
+  font-size: 18px;
+}
+.ant-collapse .ant-collapse-item .ant-collapse-header {
+  padding: 16px 20px;
+}
+table {
+  border-collapse: collapse;
+  width: 70%;
+  border: 1px solid #dddddd;
+  background: #fff;
+}
+
+td,
+th {
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+  padding: 25px 32px;
+}
+.ant-collapse .ant-collapse-item .ant-collapse-header .ant-collapse-header-text {
+  font-size: 16px;
+}
+/* .ant-collapse-item { */
+/* padding: 8px 0; */
+/* } */
+.ant-collapse-content.ant-collapse-content-active {
+  transition: all 0.3s ease-in-out;
+}
+.label {
+  margin-bottom: 8px;
+}
+.custom {
+  background: #000;
+}
