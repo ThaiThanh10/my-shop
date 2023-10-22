@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Header from "./Components/Elements/Header"
+import Header from "./Components/elements/Header"
 import Homepage from "./components/pages/Homepage/Homepage"
 import Footer from "./components/elements/Footer"
 import { Outlet } from "react-router-dom"
