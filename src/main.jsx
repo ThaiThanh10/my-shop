@@ -8,18 +8,11 @@ import App from "./App"
 import CartPage from "./components/pages/CartPage/CartPage.jsx"
 import Homepage from "./components/pages/Homepage/Homepage.jsx"
 import Checkout from "./components/pages/Checkout/Checkout.jsx"
-
-
-
-// const CartPage = React.lazy(() => import("./components/pages/CartPage/CartPage.jsx"))
-const ProductPage = React.lazy(() => import("./components/pages/ProductPage/ProductPage.jsx"))
-// const Checkout = React.lazy(() => import("./components/pages/Checkout/Checkout.jsx"))
-const Faq = React.lazy(() => import("./components/pages/Faq/Faq.jsx"))
-const PriceTable = React.lazy(() => import("./components/pages/Pricetable/PriceTable.jsx"))
-const ErrorPage = React.lazy(() => import("./components/pages/ErrorPage/ErrorPage.jsx"))
-const ProductList = React.lazy(() => import("./components/pages/ProductList/ProductList.jsx"))
-// const Homepage = React.lazy(() => import("./components/pages/Homepage/Homepage.jsx"))
-// const App = React.lazy(() => import("./App.jsx"))
+import ProductList from "./components/pages/ProductList/ProductList.jsx"
+import ProductPage from "./components/pages/ProductPage/ProductPage.jsx"
+import ErrorPage from "./components/pages/ErrorPage/ErrorPage.jsx"
+import Faq from "./components/pages/Faq/Faq.jsx"
+import PriceTable from "./components/pages/Pricetable/PriceTable.jsx"
 
 const router = createBrowserRouter([
   {

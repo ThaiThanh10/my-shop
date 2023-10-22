@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { Rate } from "antd"
 import { DislikeOutlined, HeartOutlined, LikeOutlined, ShareAltOutlined } from "@ant-design/icons"
 import Product from "../../elements/Product"
+import { MainContext } from "../../context/MainProvider"
 
 const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"]
 export const ReviewBox = () => {
@@ -31,6 +32,7 @@ export const ReviewBox = () => {
 }
 
 const ProductPage = () => {
+    const { dataProducts, handleAddCart } = useContext(MainContext)
     const [value, setValue] = useState()
 
     return (
@@ -96,7 +98,10 @@ const ProductPage = () => {
                             commodo consequat. Excepteur sint occaecat.
                         </p>
                         <div>
-                            <button style={{ maxWidth: '250px', padding: "13px 45px" }} className="button ">
+                            <button
+                                style={{ maxWidth: "250px", padding: "13px 45px" }}
+                                className="button "
+                            >
                                 Go Back
                                 <span></span>
                                 <span></span>
@@ -327,7 +332,10 @@ const ProductPage = () => {
                         className=" w-full text-[16px] text-[#7c6e65] border border-solid border-[#dfdcd7] mb-[30px] p-4 focus:border-[#161619]   rounded-0 px-4"
                         placeholder="3000 characters remaining"
                     ></input>
-                    <button style={{ maxWidth: '250px', padding: "13px 45px" }} className="button ">
+                    <button
+                        style={{ maxWidth: "250px", padding: "13px 45px" }}
+                        className="button "
+                    >
                         Submit Review
                         <span></span>
                         <span></span>
@@ -337,20 +345,20 @@ const ProductPage = () => {
                 </div>
             </div>
             <div className="container mb-[95px]">
-                <h1 className="text-[30px] font-bold mb-[33px] " >Customers Also Considered</h1>
+                <h1 className="text-[30px] font-bold mb-[33px] ">Customers Also Considered</h1>
                 <div className="grid grid-cols-5 ">
-                    {DATA_PAGE_1.map(
-                        (it, i) =>
+                    {dataProducts?.map(
+                        (product, i) =>
                             i < 5 && (
                                 <Product
-                                    id={it.id}
-                                    onClick={() => handleAdd(it)}
-                                    iconWishlist={it.isLike}
-                                    handleWishlist={() => handleWishlist(it)}
-                                    key={i + 1}
-                                    title={it.title}
-                                    authors={it.authors[0].author.name}
-                                    price={it.price}
+                                    id={product.id}
+                                    onClick={() => handleAddCart(product.id, 1, product)}
+                                    iconWishlist={product.isLike}
+                                    handleWishlist={() => handleWishlist(product)}
+                                    key={product.id}
+                                    title={product.name}
+                                    authors={product.sku}
+                                    price={product.price.formatted_with_symbol}
                                 />
                             )
                     )}

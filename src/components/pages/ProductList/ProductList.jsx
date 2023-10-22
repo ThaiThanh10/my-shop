@@ -132,7 +132,7 @@ const items = [
 ]
 
 const ProductList = () => {
-    const { dataProducts, setDataProducts } = useContext(MainContext)
+    const { dataProducts, handleAddCart } = useContext(MainContext)
 
     return (
         <div>
@@ -162,7 +162,7 @@ const ProductList = () => {
                                 i < 9 && (
                                     <Product
                                         id={it.id}
-                                        onClick={() => handleAdd(it)}
+                                        onClick={() => handleAddCart(it.id, 1, it)}
                                         iconWishlist={it.isLike}
                                         handleWishlist={() => handleWishlist(it)}
                                         key={i + 1}

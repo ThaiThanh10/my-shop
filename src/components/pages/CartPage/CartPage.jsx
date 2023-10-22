@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react"
-import { Collapse, Input, Radio, Space } from "antd"
+import { Collapse, Input, Radio, Space, message } from "antd"
 import { CloseOutlined } from "@ant-design/icons"
 import { MainContext } from "../../context/MainProvider"
 import { useNavigate } from "react-router-dom"
 const { Panel } = Collapse
 
 const CartPage = () => {
-    const { listProduct, calculateTotal, getToken, handleUpdateCartQty, handleRemove } = useContext(MainContext)
+    const { listProduct, calculateTotal, getToken, handleUpdateCartQty, setListProduct } =
+        useContext(MainContext)
     const [value, setValue] = useState(1)
     const navigate = useNavigate()
     const onChangeRadio = (e) => {
@@ -15,6 +16,12 @@ const CartPage = () => {
     }
     const onChange = (key) => {
         console.log(key)
+    }
+    const handleRemove = (productId) => {
+        const newListProduct = [...listProduct]
+        const updateList = newListProduct.filter((product) => product.id !== productId)
+        setListProduct(updateList)
+        message.success("Xoa san pham thanh cong")
     }
     const checkout = () => {
         getToken()
