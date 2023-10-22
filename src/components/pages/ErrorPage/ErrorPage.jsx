@@ -1,6 +1,6 @@
 import React from "react"
 import { Link, useNavigate } from "react-router-dom"
-import Header from "../../Elements/Header"
+import Header from "../../elements/Header"
 import Footer from "../../elements/Footer"
 
 const ErrorPage = () => {
