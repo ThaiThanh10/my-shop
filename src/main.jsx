@@ -4,16 +4,22 @@ import ReactDOM from "react-dom/client"
 import "./index.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import MainProvider from "./components/context/MainProvider.jsx"
+import App from "./App"
+import CartPage from "./components/pages/CartPage/CartPage.jsx"
+import Homepage from "./components/pages/Homepage/Homepage.jsx"
+import Checkout from "./components/pages/Checkout/Checkout.jsx"
 
-const CartPage = React.lazy(() => import("./components/pages/CartPage/CartPage.jsx"))
+
+
+// const CartPage = React.lazy(() => import("./components/pages/CartPage/CartPage.jsx"))
 const ProductPage = React.lazy(() => import("./components/pages/ProductPage/ProductPage.jsx"))
-const Checkout = React.lazy(() => import("./components/pages/Checkout/Checkout.jsx"))
+// const Checkout = React.lazy(() => import("./components/pages/Checkout/Checkout.jsx"))
 const Faq = React.lazy(() => import("./components/pages/Faq/Faq.jsx"))
 const PriceTable = React.lazy(() => import("./components/pages/Pricetable/PriceTable.jsx"))
 const ErrorPage = React.lazy(() => import("./components/pages/ErrorPage/ErrorPage.jsx"))
 const ProductList = React.lazy(() => import("./components/pages/ProductList/ProductList.jsx"))
-const Homepage = React.lazy(() => import("./components/pages/Homepage/Homepage.jsx"))
-const App = React.lazy(() => import("./App.jsx"))
+// const Homepage = React.lazy(() => import("./components/pages/Homepage/Homepage.jsx"))
+// const App = React.lazy(() => import("./App.jsx"))
 
 const router = createBrowserRouter([
   {
