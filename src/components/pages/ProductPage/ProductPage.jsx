@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import { Rate } from "antd"
-// import { HeartOutlined, ShareAltOutlined } from "@ant-design/icons"
 import { DislikeOutlined, HeartOutlined, LikeOutlined, ShareAltOutlined } from "@ant-design/icons"
-import { DATA_PAGE_1 } from "../../../DATA_PAGE_1"
 import Product from "../../elements/Product"
 
 const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"]

@@ -1,7 +1,6 @@
 import React from "react"
 import { CaretRightOutlined } from "@ant-design/icons"
 import { Collapse, theme } from "antd"
-// import "./faq.css"
 const { Panel } = Collapse
 const Faq = () => {
     const { token } = theme.useToken()

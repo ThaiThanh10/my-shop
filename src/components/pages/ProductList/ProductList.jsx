@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react"
 import { Collapse, Col, InputNumber, Row, Slider, Dropdown, Space } from "antd"
 import { PlusOutlined, MinusOutlined, DownOutlined } from "@ant-design/icons"
-import { DATA_PAGE_1 } from "../../../DATA_PAGE_1"
 import Product from "../../elements/Product"
 import { MainContext } from "../../context/MainProvider"
+
 const dataCate = [
     "All",
     "Magazine",
@@ -130,25 +130,10 @@ const items = [
         children: <IntegerStep />,
     },
 ]
-const itemsDropdown = [
-    {
-        label: "1st menu item",
-        key: "1",
-    },
-    {
-        label: "2nd menu item",
-        key: "2",
-    },
-    {
-        label: "3rd menu item",
-        key: "3",
-    },
-]
+
 const ProductList = () => {
     const { dataProducts, setDataProducts } = useContext(MainContext)
-    const onClick = ({ key }) => {
-        message.info(`Click on item ${key}`)
-    }
+
     return (
         <div>
             <div>
