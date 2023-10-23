@@ -1,22 +1,11 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Collapse, Col, InputNumber, Row, Slider, Dropdown, Space } from "antd"
 import { PlusOutlined, MinusOutlined, DownOutlined } from "@ant-design/icons"
 import Product from "../../elements/Product"
 import { MainContext } from "../../context/MainProvider"
+import { commerce } from "../../../lib/commerce"
+const { Panel } = Collapse
 
-const dataCate = [
-    "All",
-    "Magazine",
-    "Novel",
-    "Life",
-    "Arts",
-    "Comics",
-    "Education & Reference",
-    "Humanities & Social & Sciences",
-    "Science & Technology",
-    "Kids",
-    "Sports",
-]
 const dataAuthor = ["Anne Frank", "JK Rowling", "Jack London"]
 const dataFormat = ["Audio CD", "Audio Book", "Hardcover", "Kindle Books", "Paperback"]
 const dataLang = ["English", "German", "French", "Spanish", "Turkish"]
@@ -50,90 +39,27 @@ export const IntegerStep = () => {
         </Row>
     )
 }
-const items = [
-    {
-        key: "1",
-        label: "Categories",
-        children: (
-            <div>
-                {dataCate.map((it, i) => (
-                    <div
-                        key={i}
-                        className="py-[7px] px-[5px] cursor-pointer hover:bg-[#f7f7f7]"
-                    >
-                        <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
-                            {it}
-                        </p>
-                    </div>
-                ))}
-            </div>
-        ),
-    },
-    {
-        key: "2",
-        label: "Author",
-        children: (
-            <div>
-                {dataAuthor.map((it, i) => (
-                    <div
-                        key={i * 3}
-                        className="py-[7px] px-[5px]  hover:bg-[#f7f7f7]"
-                    >
-                        <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
-                            {it}
-                        </p>
-                    </div>
-                ))}
-            </div>
-        ),
-    },
-    {
-        key: "3",
-        label: "Language",
-        children: (
-            <div>
-                {dataLang.map((it, i) => (
-                    <div
-                        key={i * 3}
-                        className="py-[7px] px-[5px]  hover:bg-[#f7f7f7]"
-                    >
-                        <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
-                            {it}
-                        </p>
-                    </div>
-                ))}
-            </div>
-        ),
-    },
-    {
-        key: "4",
-        label: "Format",
-        children: (
-            <div>
-                {" "}
-                {dataFormat.map((it, i) => (
-                    <div
-                        key={i}
-                        className="py-[7px] px-[5px]  hover:bg-[#f7f7f7]"
-                    >
-                        <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
-                            {it}
-                        </p>
-                    </div>
-                ))}
-            </div>
-        ),
-    },
-    {
-        key: "5",
-        label: "Filter by price",
-        children: <IntegerStep />,
-    },
-]
 
 const ProductList = () => {
     const { dataProducts, handleAddCart } = useContext(MainContext)
-
+    const [cate, setCate] = useState([])
+    const [results, setResults] = useState(dataProducts)
+    const getCate = async () => {
+        const cate = await commerce.categories.list()
+        setCate(cate.data)
+    }
+    const handleCate = (id) => {
+        if (id == "cat_ypbroE4e8w8n4e") {
+            setResults(dataProducts)
+        } else {
+            const result = dataProducts.filter((item) => item.categories[0].id == id)
+            setResults(result)
+        }
+    }
+    useEffect(() => {
+        getCate()
+        handleCate("cat_ypbroE4e8w8n4e")
+    }, [])
     return (
         <div>
             <div>
@@ -146,18 +72,85 @@ const ProductList = () => {
             <div className="flexBetween items-start container pt-[56px] pb-[90px] ">
                 <div className="w-1/4">
                     <Collapse
-                        // accordion
-                        items={items}
+                        accordion
                         expandIconPosition="end"
                         defaultActiveKey="1"
-                    />
+                    >
+                        <Panel
+                            key="1"
+                            header="Categories"
+                        >
+                            {cate?.map((it) => (
+                                <div
+                                    onClick={() => handleCate(it.id)}
+                                    key={it.id}
+                                    className="py-[7px] px-[5px] cursor-pointer hover:bg-[#f7f7f7]"
+                                >
+                                    <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
+                                        {it.name}
+                                    </p>
+                                </div>
+                            ))}
+                        </Panel>
+                        <Panel
+                            key="2"
+                            header="Author"
+                        >
+                            {dataAuthor.map((it, i) => (
+                                <div
+                                    key={i * 3}
+                                    className="py-[7px] px-[5px]  hover:bg-[#f7f7f7]"
+                                >
+                                    <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
+                                        {it}
+                                    </p>
+                                </div>
+                            ))}
+                        </Panel>
+                        <Panel
+                            key="3"
+                            header="Language"
+                        >
+                            {dataLang.map((it, i) => (
+                                <div
+                                    key={i * 3}
+                                    className="py-[7px] px-[5px]  hover:bg-[#f7f7f7]"
+                                >
+                                    <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
+                                        {it}
+                                    </p>
+                                </div>
+                            ))}
+                        </Panel>
+                        <Panel
+                            key="4"
+                            header="Format"
+                        >
+                            {dataFormat.map((it, i) => (
+                                <div
+                                    key={i}
+                                    className="py-[7px] px-[5px]  hover:bg-[#f7f7f7]"
+                                >
+                                    <p className="text ml-[10px] transition-all duration-[0.2s] ease-[ease] hover:translate-x-[15px] ">
+                                        {it}
+                                    </p>
+                                </div>
+                            ))}
+                        </Panel>
+                        <Panel
+                            key="5"
+                            header="Filter by price"
+                        >
+                            <IntegerStep />
+                        </Panel>
+                    </Collapse>
                 </div>
                 <div className="w-[72%]">
                     <div className="pt-[9px] mb-[42px] ">
                         <h1>Showing 12 of 126 results</h1>
                     </div>
                     <div className="grid grid-cols-3 gap-y-[8px] ">
-                        {dataProducts.map(
+                        {results?.map(
                             (it, i) =>
                                 i < 9 && (
                                     <Product

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react"
-import { UserOutlined, ShoppingOutlined, DownOutlined } from "@ant-design/icons"
-import { Link, useNavigate } from "react-router-dom"
-import { Badge, Button, Popover } from "antd"
+import { UserOutlined, ShoppingOutlined, DownOutlined, SearchOutlined } from "@ant-design/icons"
+import { Link, useNavigate, useSearchParams, Form } from "react-router-dom"
+import { Badge, Button, Input, Popover } from "antd"
 import { MainContext } from "../context/MainProvider"
 import { commerce } from "../../lib/commerce"
 const dataCate = [
@@ -37,7 +37,9 @@ const Header = () => {
         }
         emptyCart()
     }
+    const handleSearch = () => {
 
+    }
     return (
         <header className="fixed top-0 left-0 w-screen z-[99] bg-[#fff] ">
             <div className="container flexBetween py-[8px] ">
@@ -263,6 +265,10 @@ const Header = () => {
                         </div>
                     </div>
                 </div>
+                <Input
+                    suffix={<SearchOutlined onClick={handleSearch} />}
+                    style={{ maxWidth: "300px" }}
+                />
             </div>
             {/* <hr className="h-[1px] w-screen bg-[#EAE8E4] " /> */}
         </header>
