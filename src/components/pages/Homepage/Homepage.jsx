@@ -10,6 +10,13 @@ import AuthorsList from "./AuthorsList"
 import { MainContext } from "../../context/MainProvider"
 const Homepage = () => {
     const { dataProducts, handleAddCart } = useContext(MainContext)
+    useEffect(() => {
+        console.log("dataProducts", dataProducts)
+
+        return () => {
+            console.log("comp will unmount")
+        }
+    }, [])
 
     return (
         <div>
@@ -24,7 +31,10 @@ const Homepage = () => {
                 onAddCart={handleAddCart}
             />
             <Deals />
-            <NewReleases dataProducts={dataProducts} />
+            <NewReleases
+                dataProducts={dataProducts}
+                onAddCart={handleAddCart}
+            />
             <BiographiesBooks />
             <AuthorsList />
         </div>

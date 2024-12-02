@@ -1,6 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-// import App from "./App.jsx"
 import "./index.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import MainProvider from "./components/context/MainProvider.jsx"
@@ -26,6 +25,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/productlist",
+        element: <ProductList />,
+      },
+      {
+        path: "/productlist/:id",
+        element: <ProductList />,
+      },
+      {
+        path: "/cate/:id",
         element: <ProductList />,
       },
       {

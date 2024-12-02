@@ -11,6 +11,7 @@ import {
     Result,
     message,
     Button,
+    Divider,
 } from "antd"
 import { MainContext } from "../../context/MainProvider"
 import { useForm } from "react-hook-form"
@@ -19,6 +20,8 @@ import * as yup from "yup"
 import InputField from "../../elements/InputField"
 import { commerce } from "../../../lib/commerce"
 import { useNavigate } from "react-router-dom"
+import PageTitle from "../../elements/PageTitle"
+import ModalResult from "./ModalResult"
 
 const phoneRegExp = /(0[3|5|7|8|9])+([0-9]{8})\b/g
 const countries = [
@@ -35,16 +38,10 @@ const Checkout = () => {
     const [country, setCountry] = useState()
     const [order, setOrder] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const navigate = useNavigate()
     const showModal = () => {
         setIsModalOpen(true)
     }
-    const handleOk = () => {
-        setIsModalOpen(false)
-    }
-    const handleCancel = () => {
-        setIsModalOpen(false)
-    }
+
     const onCityChange = (value) => {
         console.log("🚀value---->", value)
         setCountry(value)
@@ -86,7 +83,7 @@ const Checkout = () => {
     }
     const handleSubmit = (values, checkoutToken) => {
         if (!country) {
-            message.warning("Please select country")
+            message.warning("Please select city")
             return
         }
         if (!Object.keys(values).length) return
@@ -99,7 +96,7 @@ const Checkout = () => {
                 phone: values.phone,
             },
             shipping: {
-                name: "Primary",
+                name: values.firstName + values.lastName,
                 street: values.shippingAddress,
                 town_city: values.country,
             },
@@ -118,51 +115,20 @@ const Checkout = () => {
         handleCaptureCheckout(checkoutToken.id, orderData)
         showModal()
     }
-    const onChange = (key) => {
-        console.log(key)
-    }
+    // const onChange = (key) => {
+    //     console.log(key)
+    // }
     return (
         <div>
-            <Modal
-                open={isModalOpen}
-                onOk={handleOk}
-                okButtonProps={{ styles: { background: "#000" }, type: "default" }}
-                onCancel={handleCancel}
-            >
-                {order.customer ? (
-                    <Result
-                        status="success"
-                        title="Successfully Purchased  "
-                        subTitle={`Order ref: ${order?.customer_reference} .`}
-                        extra={[
-                            <h1 className="mb-[10px]">
-                                Check your email for details. If you have any trouble, then contact
-                                us
-                            </h1>,
-                            <Button
-                                onClick={() => navigate("/")}
-                                key="buy"
-                            >
-                                Continue Buying
-                            </Button>,
-                        ]}
-                    />
-                ) : (
-                    <div className="flexCenter">
-                        <Spin
-                            tip="Loading"
-                            size="large"
-                        />
-                    </div>
-                )}
-            </Modal>
-            <div>
-                <div className=" container flexBetween py-[24px]  ">
-                    <h1 className="page-title">Shop</h1>
-                    <h1>Home / Shop</h1>
-                </div>
-            </div>
-            <hr className="h-[1px]  w-screen bg-[#EAE8E4]  " />
+            <ModalResult
+                order={order}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+            />
+
+            <PageTitle />
+
+            <Divider style={{ margin: 0 }} />
             <div className="bg-[#FFF6F6]">
                 <div className="container pt-[64px] pb-[56px] ">
                     <h1 className="text-[30px] text-center font-medium leading-[36px] mb-[48px] ">
@@ -217,7 +183,7 @@ const Checkout = () => {
                                 <div className="mb-[18px]">
                                     <Space wrap>
                                         <div className="mr-[30px] flexCenter gap-x-[18px]  ">
-                                            <h1>Province</h1>
+                                            <h1>Country</h1>
                                             <Select
                                                 defaultValue="Viet Nam"
                                                 style={{
@@ -270,31 +236,41 @@ const Checkout = () => {
                             </Form>
                         </div>
                         <div className="w-[37%] bg-[#fff] p-[30px] ">
-                            {checkoutToken?.line_items.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="flex justify-between items-start p-[10px_5px] gap-x-[20px] "
-                                >
-                                    <img
-                                        className="w-[70px]"
-                                        src={`https://picsum.photos/seed/${item.id}/120/180`}
-                                        alt=""
-                                    />
-                                    <div className="w-[178px] flex flex-col gap-y-[15px] pt-[10px] ">
-                                        <h1 className="text-[14px]">{item.name}</h1>
-                                        <div className="flexCenter justify-start gap-x-[15px]">
-                                            <h1 className="text-[14px]">
-                                                Quantity: {item.quantity}
-                                            </h1>
+                            <h1 className="text-center text-[18px] text-[#161619] font-semibold mb-[30px] ">
+                                Tom tat don hang
+                            </h1>
+                            <Divider />
+                            {checkoutToken?.line_items.length ? (
+                                checkoutToken?.line_items.map((item) => (
+                                    <div key={item.id}>
+                                        <div className="flex justify-between items-start p-[10px_5px] gap-x-[20px] ">
+                                            <img
+                                                className="w-[70px]"
+                                                src={`https://picsum.photos/seed/${item.id}/120/180`}
+                                                alt=""
+                                            />
+                                            <div className="w-[178px] flex flex-col gap-y-[15px] pt-[10px] ">
+                                                <h1 className="text-[14px]">{item.name}</h1>
+                                                <div className="flexCenter justify-start gap-x-[15px]">
+                                                    <h1 className="text-[14px]">
+                                                        Quantity: {item.quantity}
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <div className="pt-[10px] flex flex-col gap-y-[15px] ">
+                                                <h1 className="text-[14px]">
+                                                    ${(item.price.raw * item.quantity).toFixed(2)}
+                                                </h1>
+                                            </div>
                                         </div>
+                                        <Divider />
                                     </div>
-                                    <div className="pt-[10px] flex flex-col gap-y-[15px] ">
-                                        <h1 className="text-[14px]">
-                                            ${(item.price.raw * item.quantity).toFixed(2)}
-                                        </h1>
-                                    </div>
+                                ))
+                            ) : (
+                                <div className="flexCenter" >
+                                    <Spin />
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
                 </div>

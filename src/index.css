@@ -15,9 +15,9 @@
   list-style: none;
 }
 @layer components {
-  .container {
-    @apply w-full max-w-[1300px] px-[15px] mx-auto relative;
-  }
+  /* .container { */
+  /* @apply w-full max-w-[1300px] px-[15px] mx-auto relative; */
+  /* } */
   .flexCenter {
     @apply flex justify-center items-center;
   }
@@ -223,4 +223,7 @@ th {
 }
 .custom {
   background: #000;
+}
+.slick-dots {
+  bottom: -11%;
 }

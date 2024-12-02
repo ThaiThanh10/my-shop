@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react"
-import { Rate } from "antd"
+import React, { useContext, useEffect, useState } from "react"
+import { Divider, Rate } from "antd"
 import { DislikeOutlined, HeartOutlined, LikeOutlined, ShareAltOutlined } from "@ant-design/icons"
 import Product from "../../elements/Product"
 import { MainContext } from "../../context/MainProvider"
-
+import Slider from "react-slick"
+import { slickSettings } from "../Homepage/BestSelling"
+import { stripHtml } from "string-strip-html"
 const desc = ["Terrible", "Bad", "Normal", "Good", "Wonderful"]
 export const ReviewBox = () => {
     return (
@@ -34,20 +36,26 @@ export const ReviewBox = () => {
 const ProductPage = () => {
     const { dataProducts, handleAddCart } = useContext(MainContext)
     const [value, setValue] = useState()
+    useEffect(() => {
+        console.log('🚀dataProducts---->', dataProducts);
+
+    }, [])
 
     return (
         <div>
             {" "}
+            <Divider />
             <div className=" container flexBetween py-[24px] ">
-                <h1 className="page-title">Single Product</h1>
-                <h1>Home / Shop / Product</h1>
+                <h1 className="heading">Single Product</h1>
+                <h1 className="text-[16px]">Home / Shop / Product</h1>
             </div>
-            <hr className="h-[1px]  w-screen bg-[#EAE8E4]  " />
-            <div className="container flex ">
-                <div className="p-[56px_15px] border-r-[#eae8e4] border-r border-solid w-[40%] ">
+            <Divider style={{ marginBottom: 0 }} />
+            <div className="container flex sm:flex-col tablet:flex-row ">
+                <div className="p-[56px_15px] border-r-[#eae8e4] mobile:border-r border-solid tablet:mx-0 tablet:w-[40%] sm:w-full sm:border-r-0 sm:mx-auto ">
                     <img
-                        className="mx-auto"
-                        src="/images/productDetail.jpg"
+                        className="mx-auto "
+                        // src="/images/productDetail.jpg"
+                        src={"/assets/productDetail.jpg"}
                         alt=""
                     />
                 </div>
@@ -56,42 +64,44 @@ const ProductPage = () => {
                         <h1 className="text-[30px] font-medium  leading-[36px] text-left">
                             Where the Crawdads Sing
                         </h1>
-                        <div className="flex justify-center items-center gap-x-[20px] w-max m-[16px_0_23px] ">
-                            <span>
-                                <Rate
-                                    tooltips={desc}
-                                    value="4"
-                                />
-                                {value ? (
-                                    <span className="text-[16px] ml-[20px] ">
-                                        {desc[value - 1]}
-                                    </span>
-                                ) : (
-                                    ""
-                                )}
-                            </span>
-                            <p className="text-[16px]  ">(3,714)</p>
+                        <div className="flexCenter gap-x-[20px] w-max m-[16px_0_23px] sm:flex-col sm:gap-y-[10px] sm:items-start ">
+                            <div className="flex gap-x-[15px]">
+                                <span>
+                                    <Rate
+                                        tooltips={desc}
+                                        value="4"
+                                    />
+                                    {value ? (
+                                        <span className="text-[16px] ml-[20px] ">
+                                            {desc[value - 1]}
+                                        </span>
+                                    ) : (
+                                        ""
+                                    )}
+                                </span>
+                                <p className="text-[16px]  ">(3,714)</p>
+                            </div>
                             <h1 className="text-[16px]  ">Author: Anna Banks</h1>
                         </div>
                         <h1 className=" text-[22px] font-medium leading-[33px] text-left mb-[16px] ">
                             $29.95 - $59.95
                         </h1>
-                        <h1 className="text-[14px] font-medium ">Book Format: </h1>
-                        <div className="flex items-center gap-x-[15px]  pt-[25px] ">
-                            <button className="text-left pb-[10px] w-[100px]  border-b-[#eae8e4] border-b border-solid hover:border-b-[#000] active:border-b-[#000] ">
+                        <h1 className="text-[18px] font-medium ">Book Format: </h1>
+                        <div className="flex items-center gap-x-[15px] mb-[25px] pt-[25px] ">
+                            <button className="text-left pb-[10px] w-[100px] flexCenter flex-col border-b-[#eae8e4] border-b border-solid hover:border-b-[#000] active:border-b-[#000] ">
                                 <h1 className="text-[16px]  ">Hardcover</h1>
                                 <p className="text-[16px] my-[6px] ">$9,59</p>
                             </button>
-                            <button className="text-left pb-[10px] w-[100px] border-b-[#eae8e4] border-b border-solid hover:border-b-[#000] active:border-b-[#000] ">
+                            <button className="text-left pb-[10px] w-[100px] flexCenter flex-col border-b-[#eae8e4] border-b border-solid hover:border-b-[#000] active:border-b-[#000] ">
                                 <h1 className="text-[16px]  ">Paperback</h1>
                                 <p className="text-[16px] my-[6px] ">$8,59</p>
                             </button>
-                            <button className="text-left pb-[10px] w-[100px] border-b-[#eae8e4] border-b border-solid hover:border-b-[#000] active:border-b-[#000] ">
+                            <button className="text-left pb-[10px] w-[100px] flexCenter flex-col border-b-[#eae8e4] border-b border-solid hover:border-b-[#000] active:border-b-[#000] ">
                                 <h1 className="text-[16px]  ">Kindle</h1>
                                 <p className="text-[16px] my-[6px] ">$7,59</p>
                             </button>
                         </div>
-                        <p className="pb-[35px] text-[14px] max-w-[550px] ">
+                        <p className="pb-[35px] text-[16px] max-w-[550px] ">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                             veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -102,7 +112,7 @@ const ProductPage = () => {
                                 style={{ maxWidth: "250px", padding: "13px 45px" }}
                                 className="button "
                             >
-                                Go Back
+                                Add to your cart
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -124,14 +134,14 @@ const ProductPage = () => {
                     </div>
                 </div>
             </div>
-            <hr className="h-[1px]  w-screen bg-[#EAE8E4]  " />
-            <div>
-                <div className="flex justify-center items-center gap-x-[90px] py-[30px] ">
+            <Divider style={{ margin: 0 }} />
+            <div className="container">
+                <div className="flexCenter  tablet:gap-x-[70px] py-[30px] sm:gap-x-0 ">
                     <li className="text-left list-none pb-[10px] w-[135px]  border-b-[#eae8e4] border-b-[2px] border-solid hover:border-b-[#000] active:border-b-[#000] ">
-                        <h1 className="text-[16px] mx-auto w-max ">Descriptions</h1>
+                        <p className="text-[16px] mx-auto w-max ">Descriptions</p>
                     </li>
                     <li className="text-left list-none pb-[10px] w-[135px] border-b-[#eae8e4] border-b-[2px] border-solid hover:border-b-[#000] active:border-b-[#000] ">
-                        <h1 className="text-[16px] mx-auto w-max ">Product Detail</h1>
+                        <p className="text-[16px] mx-auto w-max ">Product Detail</p>
                     </li>
                     <li className="text-left list-none pb-[10px] w-[135px] border-b-[#eae8e4] border-b-[2px] border-solid hover:border-b-[#000] active:border-b-[#000] ">
                         <h1 className="text-[16px] mx-auto w-max ">Video</h1>
@@ -182,9 +192,11 @@ const ProductPage = () => {
                     </p>
                     <p>WHERE THE CRAWDADS LP</p>
                 </div>
-                <span className="w-screen h-[1px] bg-[#eae8e4] block scale-x-150 "></span>
             </div>
-            <div className=" max-w-[800px] p-[64px_15px_24px] mx-auto w-full ">
+            <div
+                id="productDetails"
+                className=" max-w-[800px] p-[64px_15px_24px] mx-auto w-full "
+            >
                 <div className="flex items-center p-[12px_32px]">
                     <h1 className="w-[55%] text-[14px] font-bold ">Format</h1>
                     <p className="text-[14px]">Paperback | 384 pages</p>
@@ -214,7 +226,7 @@ const ProductPage = () => {
                     <p className="text-[14px]">English</p>
                 </div>
             </div>
-            <div className=" max-w-[800px] p-[64px_15px_56px] mx-auto w-full flexCenter ">
+            <div className=" max-w-[800px] p-[64px_15px_56px] mx-auto w-full flexCenter sm:flex-col sm:gap-y-[15px] mobile:flex-row ">
                 <div className="w-[230px] aspect-[0.70] p-[25px] relative border border-solid border-1 border-[#EAE8E4] hover:border-[#000] hover:shadow-[0_0_40px_0_rgba(22,22,25,0.1)]  ">
                     <img
                         className="mx-auto"
@@ -245,14 +257,16 @@ const ProductPage = () => {
                 </div>
             </div>
             <div className="container max-w-[1000px] mb-[72px] ">
-                <h1 className="text-[18px] text-medium ">Customer Review</h1>
-                <div className="flex justify-between mt-[30px] mb-[50px]">
-                    <div className="w-[60%]">
-                        <div className="flex">
+                <h1 className="text-[20px] font-semibold ">Customer Review</h1>
+                <div className="flex justify-between mt-[30px] mb-[50px] sm:flex-col mobile:flex-row ">
+                    <div className="mobile:w-[60%] sm:w-full ">
+                        <div className="flex  ">
                             <div className=" flex justify-start items-center gap-x-[30px] ">
                                 <h1 className="text-[60px] font-bold text-left ">4.6</h1>
                                 <span>
-                                    <p className="text-[18px] text-[#161619]">3,714 reviews</p>
+                                    <p className="text-[18px] text-[#161619] sm:mb-[10px] sm:text-[16px] ">
+                                        3,714 reviews
+                                    </p>
                                     <Rate
                                         tooltips={desc}
                                         value={value}
@@ -260,36 +274,51 @@ const ProductPage = () => {
                                 </span>
                             </div>
                         </div>
-                        <div className="mt-[30px]">
-                            <button className=" w-[180px] py-[14px] px-[18px]  text-[18px] border border-solid border-[#000] hover:bg-[#000] hover:text-white ">
+                        <div className="my-[30px] sm:flex  ">
+                            <button className=" w-[150px] py-[14px] px-[18px]  text-[18px] border border-solid border-[#000] hover:bg-[#000] hover:text-white ">
                                 See all reviews
                             </button>
-                            <button className=" w-[180px] py-[14px] px-[18px]  mx-[20px] text-[18px] border border-solid border-[#000] hover:bg-[#000] hover:text-white ">
+                            <button className=" w-[150px] py-[14px] px-[18px]  mx-[20px] text-[18px] border border-solid border-[#000] hover:bg-[#000] hover:text-white ">
                                 Write a review
                             </button>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-y-[20px] w-1/2">
-                        <Rate
-                            tooltips={desc}
-                            value="1"
-                        />
-                        <Rate
-                            tooltips={desc}
-                            value="2"
-                        />
-                        <Rate
-                            tooltips={desc}
-                            value="3"
-                        />
-                        <Rate
-                            tooltips={desc}
-                            value="4"
-                        />
-                        <Rate
-                            tooltips={desc}
-                            value="5"
-                        />
+                    <div className="flex flex-col gap-y-[20px] w-1/2 sm:w-full ">
+                        <div className="flexCenter gap-x-[15px]">
+                            <h1>(25)</h1>
+                            <Rate
+                                tooltips={desc}
+                                value="1"
+                            />
+                        </div>
+                        <div className="flexCenter gap-x-[15px]">
+                            <h1>(25)</h1>
+                            <Rate
+                                tooltips={desc}
+                                value="2"
+                            />
+                        </div>
+                        <div className="flexCenter gap-x-[15px]">
+                            <h1>(25)</h1>
+                            <Rate
+                                tooltips={desc}
+                                value="3"
+                            />
+                        </div>
+                        <div className="flexCenter gap-x-[15px]">
+                            <h1>(25)</h1>
+                            <Rate
+                                tooltips={desc}
+                                value="4"
+                            />
+                        </div>
+                        <div className="flexCenter gap-x-[15px]">
+                            <h1>(25)</h1>
+                            <Rate
+                                tooltips={desc}
+                                value="5"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -346,23 +375,22 @@ const ProductPage = () => {
             </div>
             <div className="container mb-[95px]">
                 <h1 className="text-[30px] font-bold mb-[33px] ">Customers Also Considered</h1>
-                <div className="grid grid-cols-5 ">
-                    {dataProducts?.map(
-                        (product, i) =>
-                            i < 5 && (
-                                <Product
-                                    id={product.id}
-                                    onClick={() => handleAddCart(product.id, 1, product)}
-                                    iconWishlist={product.isLike}
-                                    handleWishlist={() => handleWishlist(product)}
-                                    key={product.id}
-                                    title={product.name}
-                                    authors={product.sku}
-                                    price={product.price.formatted_with_symbol}
-                                />
-                            )
-                    )}
-                </div>
+
+                <Slider {...slickSettings}>
+                    {dataProducts?.map((product, i) => (
+                        <Product
+                            desc={stripHtml(product?.description)}
+                            id={product.id}
+                            onClick={() => handleAddCart(product.id, 1, product)}
+                            iconWishlist={product.isLike}
+                            handleWishlist={() => handleWishlist(product)}
+                            key={product.id}
+                            title={product.name}
+                            authors={product.sku}
+                            price={product.price.formatted_with_symbol}
+                        />
+                    ))}
+                </Slider>
             </div>
         </div>
     )

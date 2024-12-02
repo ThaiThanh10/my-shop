@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Collapse, Input, Radio, Space, message } from "antd"
+import { Collapse, Divider, Input, Radio, Space, message } from "antd"
 import { CloseOutlined } from "@ant-design/icons"
 import { MainContext } from "../../context/MainProvider"
 import { useNavigate } from "react-router-dom"
@@ -8,12 +8,8 @@ const { Panel } = Collapse
 const CartPage = () => {
     const { listProduct, calculateTotal, getToken, handleUpdateCartQty, setListProduct } =
         useContext(MainContext)
-    const [value, setValue] = useState(1)
     const navigate = useNavigate()
-    const onChangeRadio = (e) => {
-        console.log("radio checked", e.target.value)
-        setValue(e.target.value)
-    }
+
     const onChange = (key) => {
         console.log(key)
     }
@@ -21,7 +17,6 @@ const CartPage = () => {
         const newListProduct = [...listProduct]
         const updateList = newListProduct.filter((product) => product.id !== productId)
         setListProduct(updateList)
-        message.success("Xoa san pham thanh cong")
     }
     const checkout = () => {
         getToken()
@@ -36,82 +31,86 @@ const CartPage = () => {
                     <h1>Home / Shop</h1>
                 </div>
             </div>
-            <hr className="h-[1px]  w-screen bg-[#EAE8E4]  " />
+            <Divider style={{ margin: 0 }} />
             <div className="bg-[#FFF6F6]">
                 <div className="container pt-[64px] pb-[56px] ">
                     <h1 className="text-[30px] text-center font-medium leading-[36px] mb-[48px] ">
                         Your Cart
                     </h1>
-                    <div className="flexBetween items-start ">
-                        <table>
-                            <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th className="text-center">Quantity</th>
-                                <th>Total</th>
-                            </tr>
-                            {listProduct?.map((product) => (
+                    <div className="flexBetween items-start  sm:flex-col">
+                        <table className="sm:w-full" >
+                            <tbody>
                                 <tr>
-                                    <td className=" flex items-center gap-x-[16px] ">
-                                        <img
-                                            // className="w-[70px]"
-                                            src={`https://picsum.photos/seed/${product.id}/120/180`}
-                                            alt=""
-                                        />
-                                        <div>
-                                            <h1>{product.name}</h1>
-                                            <h1>{product.sku}</h1>
-                                        </div>
-                                    </td>
-                                    <td>${product.price.raw}</td>
-                                    <td>
-                                        <div className="flexCenter gap-x-[10px] p-[16px] borer-solid border-[1px] border-[#EAE8E4] ">
-                                            <button
-                                                onClick={() =>
-                                                    handleUpdateCartQty(
-                                                        product.id,
-                                                        product.quantity - 1
-                                                    )
-                                                }
-                                                className=" w-[33px] text-[22px]  px-[10px] "
-                                                type="button "
-                                            >
-                                                -
-                                            </button>
-                                            <p className="text-[22px]">
-                                                {product.quantity == 0
-                                                    ? handleRemove(product.id)
-                                                    : product.quantity}
-                                            </p>
-                                            <button
-                                                onClick={() =>
-                                                    handleUpdateCartQty(
-                                                        product.id,
-                                                        product.quantity + 1
-                                                    )
-                                                }
-                                                className=" w-[33px] text-[22px] px-[10px] "
-                                                type="button"
-                                            >
-                                                +
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>${(product.price.raw * product.quantity).toFixed(2)}</td>
-                                    <td className="border-t border-solid-[#fff]">
-                                        <button onClick={() => handleRemove(product.id)}>
-                                            {" "}
-                                            <CloseOutlined />
-                                        </button>
-                                    </td>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th className="text-center">Quantity</th>
+                                    <th>Total</th>
                                 </tr>
-                            ))}
+                                {listProduct?.map((product) => (
+                                    <tr key={product.id}>
+                                        <td className=" flex items-center gap-x-[16px] ">
+                                            <img
+                                                // className="w-[70px]"
+                                                src={`https://picsum.photos/seed/${product.id}/120/180`}
+                                                alt=""
+                                            />
+                                            <div>
+                                                <h1>{product.name}</h1>
+                                                <h1>{product.sku}</h1>
+                                            </div>
+                                        </td>
+                                        <td>${product.price.raw}</td>
+                                        <td>
+                                            <div className="flexCenter gap-x-[10px] p-[16px] borer-solid border-[1px] border-[#EAE8E4] ">
+                                                <button
+                                                    onClick={() =>
+                                                        handleUpdateCartQty(
+                                                            product.id,
+                                                            product.quantity - 1
+                                                        )
+                                                    }
+                                                    className=" w-[33px] text-[22px]  px-[10px] "
+                                                    type="button "
+                                                >
+                                                    -
+                                                </button>
+                                                <p className="text-[22px]">
+                                                    {product.quantity == 0
+                                                        ? handleRemove(product.id)
+                                                        : product.quantity}
+                                                </p>
+                                                <button
+                                                    onClick={() =>
+                                                        handleUpdateCartQty(
+                                                            product.id,
+                                                            product.quantity + 1
+                                                        )
+                                                    }
+                                                    className=" w-[33px] text-[22px] px-[10px] "
+                                                    type="button"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            ${(product.price.raw * product.quantity).toFixed(2)}
+                                        </td>
+                                        <td className="border-t border-solid-[#fff]">
+                                            <button onClick={() => handleRemove(product.id)}>
+                                                {" "}
+                                                <CloseOutlined />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
                         </table>
-                        <div className="w-[27%]">
+                        <div className="w-[27%] sm:w-full ">
                             <Collapse
                                 expandIconPosition="end"
                                 defaultActiveKey={["1", "2", "3"]}
-                                onChange={onChange}
+                            // onChange={onChange}
                             >
                                 <Panel
                                     header="Cart Totals"
@@ -136,8 +135,7 @@ const CartPage = () => {
                                         style={{
                                             padding: "31px",
                                         }}
-                                        onChange={onChangeRadio}
-                                        value={value}
+                                        value={1}
                                     >
                                         <Space direction="vertical">
                                             <Radio value={1}>Free Shipping</Radio>

@@ -7,20 +7,28 @@ const MainProvider = ({ children }) => {
     const [dataProducts, setDataProducts] = useState([])
     const [cart, setCart] = useState({})
     const [listProduct, setListProduct] = useState([])
+    const [results, setResults] = useState()
     const [checkoutToken, setCheckoutToken] = useState()
+    const [cate, setCate] = useState([])
+    const getCate = async () => {
+        const cate = await commerce.categories.list()
+        setCate(cate.data)
+    }
     const getDataProducts = async () => {
         const { data } = await commerce.products.list()
         setDataProducts(data)
+        setResults(data)
+        const cart = await commerce.cart.retrieve()
+        console.log('🚀cart---->', cart);
+        setCart(cart)
+        setListProduct(cart.line_items)
     }
     const getDataCart = async () => {
         const cart = await commerce.cart.retrieve()
         setCart(cart)
         setListProduct(cart.line_items)
-        console.log("🚀cart---->", cart)
     }
-    const sendDataCart = async (productId, quantity) => {
-        await commerce.cart.add(productId, quantity)
-    }
+
     const handleRemove = (productId) => {
         const newListProduct = [...listProduct]
         const updateList = newListProduct.filter((product) => product.id !== productId)
@@ -31,34 +39,17 @@ const MainProvider = ({ children }) => {
         }
         handleRemove(productId)
     }
-    const handleAddCart = (productId, quantity, product) => {
-        sendDataCart(productId, quantity)
-
-        const newLineItems = [...listProduct]
-        if (!newLineItems.length) {
-            product.quantity = 1
-            newLineItems.push(product)
-            setListProduct(newLineItems)
+    const handleAddCart = (productId, quantity) => {
+        const sendDataCart = async (productId, quantity) => {
+            message.loading("Dang them gio hang")
+            const cart = await commerce.cart.add(productId, quantity)
+            setCart(cart)
+            setListProduct(cart.line_items)
             message.success("Them vao gio hang thanh cong")
-            return
         }
-        if (newLineItems.length) {
-            const findSameItem = (element) => element.id === productId
-            const isSameItem = newLineItems.findIndex(findSameItem)
-            if (isSameItem === -1) {
-                product.quantity = 1
-                newLineItems.push(product)
-                setListProduct(newLineItems)
-                message.success("Them vao gio hang thanh cong")
-            } else {
-                newLineItems[isSameItem].quantity += 1
-                setListProduct(newLineItems)
-                message.success("Item has been added successfully")
-            }
-        }
+        sendDataCart(productId, quantity)
     }
     const handleUpdateCartQty = (id, quantity) => {
-        console.log("🚀id---->", id)
         const selectedItem = listProduct.findIndex((ele) => ele.id == id)
         const newLineItems = [...listProduct]
         newLineItems[selectedItem].quantity = quantity
@@ -81,20 +72,23 @@ const MainProvider = ({ children }) => {
         const token = await commerce.checkout.generateToken(cartId, { type: "cart" })
         setCheckoutToken(token)
     }
+    const getLoginToken = async () => {
+        commerce.customer.login('alanthaivt113@gmail.com', 'http://localhost:5173/').then((token) => console.log(token));
+    }
     useEffect(() => {
         getDataProducts()
-        getDataCart()
-        console.log(1)
+        getLoginToken()
+        // getDataCart()
+        getCate()
     }, [])
-    useEffect(() => {
-        getDataCart()
-        console.log(2)
-    }, [listProduct.length])
+
     return (
         <MainContext.Provider
             value={{
                 dataProducts,
                 setDataProducts,
+                results,
+                setResults,
                 cart,
                 setCart,
                 handleAddCart,
@@ -105,6 +99,9 @@ const MainProvider = ({ children }) => {
                 calculateTotal,
                 checkoutToken,
                 getToken,
+                cate,
+                setCate,
+                getCate,
             }}
         >
             {children}
